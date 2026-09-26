@@ -2,15 +2,18 @@
 from pathlib import Path
 from html import escape
 from urllib.parse import quote
+import json
+from hashlib import sha256
 
 ROOT = Path(__file__).resolve().parents[1]
+SITE_URL = 'https://milkshek.github.io/mdo-consultech/'
 COPY = {
     'fr': {
-        'title': 'Michel Do — Développement web & conseil technique | MDO Consultech',
+        'title': 'Michel Do | Développeur freelance & conseil IA à Marseille',
         'description': 'Consultant indépendant à Marseille. Sites web, applications sur mesure et intégration IA. Audit IA gratuit pour identifier les usages adaptés à vos processus.',
         'nav': ['Expertises', 'Expériences', 'Approche'], 'contact': 'Parlons de votre projet',
         'skip': 'Aller au contenu', 'eyebrow': 'MICHEL DO · CONSULTANT INDÉPENDANT',
-        'headline': 'Vos idées.<br>Mon expertise.<br><em>Votre prochain<br>chapitre.</em>',
+        'headline': 'Développeur<br>web & logiciel.<br><em>Conseil en IA.</em>',
         'intro': 'Sites web, applications métiers et intégration de l’IA : je conçois des solutions adaptées à vos besoins. Avec le recul d’un ingénieur senior et l’implication d’un partenaire.',
         'aiLabel': '04 / NOUVELLE EXPERTISE · INTELLIGENCE ARTIFICIELLE',
         'aiTitle': 'L’IA, là où elle<br><em>vous est utile.</em>',
@@ -26,14 +29,14 @@ COPY = {
         'email': 'Ou échangeons par e-mail', 'connect': 'Échanger sur LinkedIn', 'work': 'Découvrir mon expertise',
         'location': 'Basé à Marseille · Ouvert aux collaborations à distance',
         'scroll': 'FAISONS CONNAISSANCE', 'years': 'ans d’expérience', 'scope': 'Du besoin à la mise en ligne',
-        'serviceLabel': '01 / EXPERTISES', 'serviceTitle': 'Le bon accompagnement,<br><em>à chaque étape.</em>',
+        'serviceLabel': '01 / EXPERTISES', 'serviceTitle': 'Sites web, applications<br><em>et accompagnement IA.</em>',
         'serviceIntro': 'Un site à créer, une application à faire évoluer ou une équipe à renforcer : nous partons de votre besoin.',
         'services': [
             ('Sites web', 'Une présence en ligne à votre image.', 'Sites vitrines, portfolios et sites de présentation d’activité. Une expérience soignée, lisible sur tous les écrans et facile à parcourir.', ['Conception & développement', 'Responsive & accessibilité', 'Mise en ligne']),
             ('Applications sur mesure', 'Des outils pensés pour votre métier.', 'Applications métiers, plateformes web et intégrations. Je relie vos besoins, vos données et vos outils pour construire une solution cohérente.', ['Développement full stack', 'API & intégrations', 'Données & architecture']),
             ('Accompagnement technique', 'Du renfort au leadership.', 'Un regard expérimenté sur votre projet et une implication concrète : développement, refonte, choix d’architecture et accompagnement de vos équipes.', ['Refonte & évolution', 'Lead technique & mentorat', 'Qualité & industrialisation']),
         ],
-        'expLabel': '02 / EXPÉRIENCES SÉLECTIONNÉES', 'expTitle': 'Du concret.<br><em>Et de la diversité.</em>',
+        'expLabel': '02 / EXPÉRIENCES SÉLECTIONNÉES', 'expTitle': 'ERP et plateformes web.<br><em>Des projets concrets.</em>',
         'expIntro': 'Quelques projets auxquels j’ai contribué, au croisement de la technique, du produit et des usages métier.',
         'projects': [
             ('2025 — 2026', 'RDT Logistic', 'Mission via AddixGroup · Lead Developer Full Stack', 'Repenser un ERP logistique.', 'Refonte complète de l’ERP avec une équipe de cinq développeurs, une Product Owner et un BA/UX Designer. Architecture, reprise des données clients, services de réservation de transport et facturation électronique.', ['Symfony', 'Vue.js', 'PostgreSQL', 'RabbitMQ'], 'ERP / LOGISTIQUE'),
@@ -50,11 +53,11 @@ COPY = {
         'pause': 'Mettre en pause', 'play': 'Animer le logo',
     },
     'en': {
-        'title': 'Michel Do — Web Development & Technical Consulting | MDO Consultech',
+        'title': 'Michel Do | Freelance Web Developer & AI Consultant, Marseille',
         'description': 'Independent consultant in Marseille. Websites, custom applications and AI integration. Free AI assessment to identify relevant uses for your business processes.',
         'nav': ['Expertise', 'Experience', 'Approach'], 'contact': 'Let’s talk about your project',
         'skip': 'Skip to content', 'eyebrow': 'MICHEL DO · INDEPENDENT CONSULTANT',
-        'headline': 'Your ideas.<br>My expertise.<br><em>Your next<br>chapter.</em>',
+        'headline': 'Web & software<br>development.<br><em>AI consulting.</em>',
         'intro': 'Websites, business applications and AI integration: I build solutions around your needs. Bringing a senior engineer’s perspective and a partner’s commitment.',
         'aiLabel': '04 / NEW EXPERTISE · ARTIFICIAL INTELLIGENCE',
         'aiTitle': 'AI, where it<br><em>works for you.</em>',
@@ -70,14 +73,14 @@ COPY = {
         'email': 'Or get in touch by email', 'connect': 'Let’s connect on LinkedIn', 'work': 'Explore my expertise',
         'location': 'Based in Marseille, France · Open to remote collaboration',
         'scroll': 'LET’S GET ACQUAINTED', 'years': 'years of experience', 'scope': 'From requirements to launch',
-        'serviceLabel': '01 / EXPERTISE', 'serviceTitle': 'The right support,<br><em>at every stage.</em>',
+        'serviceLabel': '01 / EXPERTISE', 'serviceTitle': 'Websites, applications<br><em>and AI consulting.</em>',
         'serviceIntro': 'A new website, an application to improve or a team to support: your needs are our starting point.',
         'services': [
             ('Websites', 'An online presence that feels like you.', 'Business websites, portfolios and company sites. A considered experience that works across screens and makes your content easy to explore.', ['Design & development', 'Responsive & accessible', 'Launch']),
             ('Custom applications', 'Tools built around your business.', 'Business applications, web platforms and integrations. I bring your requirements, data and tools together into a coherent solution.', ['Full-stack development', 'APIs & integrations', 'Data & architecture']),
             ('Technical consulting', 'From hands-on support to leadership.', 'An experienced perspective and practical involvement: development, application modernization, architecture decisions and guidance for your team.', ['Modernization & evolution', 'Technical leadership & mentoring', 'Quality & delivery practices']),
         ],
-        'expLabel': '02 / SELECTED EXPERIENCE', 'expTitle': 'Real projects.<br><em>Different challenges.</em>',
+        'expLabel': '02 / SELECTED EXPERIENCE', 'expTitle': 'ERPs and web platforms.<br><em>Real-world projects.</em>',
         'expIntro': 'A selection of projects I have contributed to, connecting engineering, product thinking and business needs.',
         'projects': [
             ('2025 — 2026', 'RDT Logistic', 'Assignment through AddixGroup · Lead Full Stack Developer', 'Rebuilding a logistics ERP.', 'A complete ERP rebuild with five developers, a Product Owner and a BA/UX Designer. Architecture, customer data migration, transport booking services and electronic invoicing.', ['Symfony', 'Vue.js', 'PostgreSQL', 'RabbitMQ'], 'ERP / LOGISTICS'),
@@ -97,6 +100,27 @@ COPY = {
 
 def render(lang):
     d = COPY[lang]
+    css_version = sha256((ROOT / 'assets/site.css').read_bytes()).hexdigest()[:12]
+    js_version = sha256((ROOT / 'assets/logo.js').read_bytes()).hexdigest()[:12]
+    canonical = SITE_URL + ('en/' if lang == 'en' else '')
+    schema = {
+        '@context': 'https://schema.org',
+        '@graph': [
+            {'@type': 'WebSite', '@id': SITE_URL + '#website', 'url': SITE_URL,
+             'name': 'MDO Consultech', 'inLanguage': ['fr', 'en'],
+             'publisher': {'@id': SITE_URL + '#michel-do'}},
+            {'@type': 'Person', '@id': SITE_URL + '#michel-do', 'name': 'Michel Do',
+             'url': SITE_URL, 'jobTitle': 'Senior Software Engineer · Lead Developer',
+             'description': d['intro'],
+             'workLocation': {'@type': 'Place', 'name': 'Marseille, France'},
+             'sameAs': ['https://www.linkedin.com/in/domichel/', 'https://github.com/Milkshek']},
+            {'@type': 'WebPage', '@id': canonical + '#webpage', 'url': canonical,
+             'name': d['title'], 'description': d['description'], 'inLanguage': lang,
+             'isPartOf': {'@id': SITE_URL + '#website'},
+             'mainEntity': {'@id': SITE_URL + '#michel-do'}},
+        ],
+    }
+    structured_data = json.dumps(schema, ensure_ascii=False).replace('<', '\\u003c')
     base = './' if lang == 'fr' else '../'
     french, english = ('./', './en/') if lang == 'fr' else ('../', './')
     email = f'<p class="email-contact"><span>{d["email"]}</span><a href="mailto:domichelviet+pro@gmail.com">domichelviet+pro@gmail.com <span aria-hidden="true">↗</span></a></p>'
@@ -110,12 +134,23 @@ def render(lang):
 <html lang="{lang}">
 <head>
   <meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>{d['title']}</title><meta name="description" content="{escape(d['description'], quote=True)}">
+  <title>{escape(d['title'])}</title><meta name="description" content="{escape(d['description'], quote=True)}">
   <meta name="theme-color" content="#7c0f1a">
-  <link rel="alternate" hreflang="fr" href="{french}"><link rel="alternate" hreflang="en" href="{english}">
+  <link rel="canonical" href="{canonical}">
+  <link rel="alternate" hreflang="fr" href="{SITE_URL}">
+  <link rel="alternate" hreflang="en" href="{SITE_URL}en/">
+  <link rel="alternate" hreflang="x-default" href="{SITE_URL}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="MDO Consultech">
+  <meta property="og:title" content="{escape(d['title'], quote=True)}">
+  <meta property="og:description" content="{escape(d['description'], quote=True)}">
+  <meta property="og:url" content="{canonical}">
+  <meta property="og:locale" content="{'fr_FR' if lang == 'fr' else 'en_GB'}">
+  <meta property="og:locale:alternate" content="{'en_GB' if lang == 'fr' else 'fr_FR'}">
+  <script type="application/ld+json">{structured_data}</script>
   <link rel="icon" href="{base}assets/favicon.svg" type="image/svg+xml">
-  <link rel="stylesheet" href="{base}assets/site.css">
-  <script src="{base}assets/logo.js" defer></script>
+  <link rel="stylesheet" href="{base}assets/site.css?v={css_version}">
+  <script src="{base}assets/logo.js?v={js_version}" defer></script>
 </head>
 <body>
 <a class="skip" href="#main">{d['skip']}</a>
@@ -147,4 +182,10 @@ for lang, name in [('fr', 'index.html'), ('en', 'en/index.html')]:
     destination = ROOT / name
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(render(lang))
-print('Built index.html and en/index.html')
+(ROOT / 'sitemap.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+  <url><loc>{SITE_URL}</loc></url>
+  <url><loc>{SITE_URL}en/</loc></url>
+</urlset>
+''')
+print('Built index.html, en/index.html and sitemap.xml')

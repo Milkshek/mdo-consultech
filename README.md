@@ -32,3 +32,34 @@ Les fichiers `index.html` et `en/index.html` générés sont versionnés pour pe
 ## Publication
 
 Compatible avec GitHub Pages (fichiers à la racine, `.nojekyll`, URLs relatives compatibles avec un sous-répertoire). Aucun push ni déploiement n’est effectué par le script. Configurer l’hébergement sur la branche souhaitée au moment de publier.
+
+## Référencement naturel
+
+L’adresse publique est centralisée dans `SITE_URL` dans `scripts/build.py` :
+`https://milkshek.github.io/mdo-consultech/`.
+Le générateur produit les URL canoniques propres à chaque langue, les alternates
+`hreflang` absolus et réciproques (FR, EN, x-default), les métadonnées de partage,
+les données structurées WebSite / WebPage / Person et `sitemap.xml`.
+Le contenu reste rendu en HTML sans dépendre du JavaScript.
+
+Après publication :
+
+1. Ajouter la propriété **Préfixe de l’URL** `https://milkshek.github.io/mdo-consultech/`
+   dans Google Search Console et suivre sa procédure de validation. Si une balise
+   de validation est choisie, fournir sa valeur pour l’ajouter au générateur ;
+   ne pas modifier uniquement le HTML généré.
+2. Soumettre `https://milkshek.github.io/mdo-consultech/sitemap.xml`.
+3. Inspecter les URL française et anglaise, contrôler la canonique retenue et
+   demander leur indexation. La disponibilité et le classement dans Google ne
+   sont pas garantis par ces réglages.
+4. Mesurer les performances du site publié avec PageSpeed Insights ; les tests
+   locaux ne constituent pas une mesure des Core Web Vitals des visiteurs.
+
+Pas de `robots.txt` dans ce dépôt de projet : seul
+`https://milkshek.github.io/robots.txt`, à la racine du domaine, a autorité.
+Un fichier sous `/mdo-consultech/` serait sans effet. Le sitemap peut être soumis
+directement dans Search Console. Aucun accès Search Console ou résultat
+d’indexation n’a été vérifié lors de l’implémentation.
+
+Références : [versions localisées](https://developers.google.com/search/docs/specialty/international/localized-versions),
+[robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro).

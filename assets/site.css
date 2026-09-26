@@ -44,3 +44,4 @@
 .github-contact:hover{color:var(--cream)}
 .footer-github{font-size:11px;color:var(--gold)}
 .footer-github:hover{text-decoration:underline;text-underline-offset:4px}
+@media(max-width:400px){h1{font-size:42px;letter-spacing:-1.8px}.orbit-star{right:10px}}
