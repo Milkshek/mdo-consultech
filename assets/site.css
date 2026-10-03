@@ -45,3 +45,14 @@
 .footer-github{font-size:11px;color:var(--gold)}
 .footer-github:hover{text-decoration:underline;text-underline-offset:4px}
 @media(max-width:400px){h1{font-size:42px;letter-spacing:-1.8px}.orbit-star{right:10px}}
+
+/* Legal pages share the portfolio palette and system fonts. */
+.footer-inner{flex-wrap:wrap;gap:18px 24px}.footer-legal{font-size:11px;text-decoration:underline;text-underline-offset:4px}
+.legal-content{max-width:840px;padding-block:45px 70px;overflow-wrap:anywhere}
+.legal-back{display:inline-block;color:var(--wine);margin-bottom:35px;font-size:13px}
+.legal-content h1{font-size:clamp(34px,5vw,54px);line-height:1.15;letter-spacing:-1.2px}
+.legal-intro{color:var(--muted);margin-bottom:40px}
+.legal-content section{border-top:1px solid var(--line);padding-top:26px;margin-top:30px}
+.legal-content h2{font-size:27px;letter-spacing:-.4px;margin-bottom:18px}
+.legal-content p{font-size:14px;line-height:1.85}.legal-content a{text-decoration:underline;text-underline-offset:3px;color:var(--wine)}
+.legal-page .header{height:100px;min-height:0;flex-wrap:nowrap;padding-top:0}

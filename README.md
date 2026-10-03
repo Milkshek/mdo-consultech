@@ -1,6 +1,6 @@
 # MDO Consultech
 
-Portfolio bilingue de Michel Do. HTML/CSS/JavaScript statiques, sans dépendance réseau, sans formulaire ni collecte de données. Contact via LinkedIn ou le lien e-mail professionnel.
+Portfolio bilingue de Michel Do. HTML/CSS/JavaScript statiques, sans dépendance réseau, sans formulaire ni outil de mesure d’audience. GitHub Pages journalise les IP pour la sécurité ; les échanges par e-mail impliquent un traitement de données. Contact via LinkedIn ou le lien e-mail professionnel.
 
 ## Prévisualisation
 
@@ -12,7 +12,7 @@ Ouvrir http://127.0.0.1:4173 (français) ou http://127.0.0.1:4173/en/ (anglais).
 
 ## Modifier les contenus
 
-Les textes FR/EN et la structure commune se trouvent dans `scripts/build.py`.
+Les textes FR/EN et la structure commune se trouvent dans `scripts/build.py`. Les mentions légales sont dans `scripts/legal.py` et produisent `mentions-legales.html` et `en/legal-notice.html`.
 
 ```sh
 python3 scripts/build.py
@@ -63,3 +63,37 @@ d’indexation n’a été vérifié lors de l’implémentation.
 
 Références : [versions localisées](https://developers.google.com/search/docs/specialty/international/localized-versions),
 [robots.txt](https://developers.google.com/search/docs/crawling-indexing/robots/intro).
+
+## Mentions légales — activité exclusivement professionnelle
+
+Les pages FR/EN sont reliées aux pieds de page. Le site et les mentions précisent
+que les prestations sont réservées aux clients agissant dans leur activité professionnelle. Informations d’identité issues du document
+INPI fourni ; aucun document INPI ni donnée personnelle étrangère aux mentions n’est copié.
+
+Périmètre et règles à appliquer :
+
+- **Clientèle professionnelle uniquement** : choix confirmé par Michel le 3 octobre
+  2026. La médiation de la consommation ne s’applique pas aux litiges entre
+  professionnels ; aucune adhésion ni rubrique de médiation n’est donc requise
+  pour ce périmètre. Vérifier que les commandes concernent bien une activité
+  professionnelle. Si l’offre s’ouvre aux consommateurs, réexaminer ces obligations
+  avant de conclure les contrats correspondants.
+- **Téléphone de l’hébergeur** : +1 877 448 4820 ajouté à la demande explicite
+  de Michel le 3 octobre 2026. Source : brochure officielle GitHub Enterprise,
+  https://enterprise.github.com/downloads/en/enterprise-datasheet.pdf (page 2).
+  La source est ancienne ; le fonctionnement actuel du numéro n’est pas confirmé.
+- **Messagerie** : la politique retient la suppression des demandes sans suite au plus
+  tard 12 mois après leur clôture. Cette règle doit être appliquée dans Gmail (aucune
+  suppression ou automatisation n’a été mise en place). Les pièces nécessaires à une
+  prestation ou à une obligation légale ont une conservation distincte.
+- **Documents commerciaux** : les devis et contrats restent distincts de ces mentions.
+  Cette modification ne crée pas de contrat type et ne prétend pas écarter les
+  protections légales éventuellement applicables à certains petits professionnels.
+
+Sources consultées le 3 octobre 2026 :
+- https://entreprendre.service-public.gouv.fr/vosdroits/F31228
+- https://www.economie.gouv.fr/files/files/directions_services/mediation-conso/Fiche%20pratique%20professionnels.pdf
+- https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement
+- https://docs.github.com/en/pages/getting-started-with-github-pages/what-is-github-pages
+- https://www.cnil.fr/fr/conformite-rgpd-information-des-personnes-et-transparence
+- https://policies.google.com/privacy/frameworks?hl=fr

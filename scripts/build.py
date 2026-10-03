@@ -4,6 +4,7 @@ from html import escape
 from urllib.parse import quote
 import json
 from hashlib import sha256
+from legal import render_legal
 
 ROOT = Path(__file__).resolve().parents[1]
 SITE_URL = 'https://milkshek.github.io/mdo-consultech/'
@@ -47,7 +48,7 @@ COPY = {
         'approachIntro': 'Plus de dix ans à construire des produits, faire évoluer des applications et travailler aux côtés des équipes. Une conviction : les bons choix techniques commencent par les bonnes questions.',
         'steps': [('Build.', 'Comprendre & construire', 'Clarifier vos besoins, choisir une solution adaptée et lui donner forme.'), ('Solve.', 'Résoudre & simplifier', 'Faire face aux contraintes réelles, connecter les outils et débloquer les sujets techniques.'), ('Evolve.', 'Améliorer & transmettre', 'Faire évoluer le produit, soigner la qualité et partager les connaissances.')],
         'contactLabel': '04 / ET LA SUITE ?', 'contactTitle': 'Votre prochain projet<br><em>commence par un échange.</em>',
-        'contactText': 'Un site, une application, un besoin de renfort ou un projet IA ? Discutons de ce que vous souhaitez construire.',
+        'contactText': 'Un site, une application, un besoin de renfort ou un projet IA ? Discutons de ce que vous souhaitez construire. Prestations réservées aux professionnels.',
         'cv': 'Mon parcours en détail', 'cvFR': 'CV français', 'cvEN': 'CV anglais',
         'github': 'Voir mon GitHub', 'footer': 'Conseil & développement web et logiciel', 'top': 'Retour en haut',
         'pause': 'Mettre en pause', 'play': 'Animer le logo',
@@ -91,7 +92,7 @@ COPY = {
         'approachIntro': 'Over ten years building products, evolving applications and working alongside teams. One conviction: good technical decisions start with the right questions.',
         'steps': [('Build.', 'Understand & create', 'Clarify your needs, choose an appropriate solution and bring it to life.'), ('Solve.', 'Resolve & simplify', 'Work through real-world constraints, connect tools and remove technical obstacles.'), ('Evolve.', 'Improve & share', 'Develop the product further, care for its quality and share knowledge.')],
         'contactLabel': '04 / WHAT’S NEXT?', 'contactTitle': 'Your next project<br><em>starts with a conversation.</em>',
-        'contactText': 'A website, an application, an extra pair of experienced hands or an AI project? Let’s talk about what you want to build.',
+        'contactText': 'A website, an application, an extra pair of experienced hands or an AI project? Let’s talk about what you want to build. Services for business and professional clients only.',
         'cv': 'Explore my background', 'cvFR': 'French CV', 'cvEN': 'English CV',
         'github': 'Explore my GitHub', 'footer': 'Web & software development consulting', 'top': 'Back to top',
         'pause': 'Pause animation', 'play': 'Animate logo',
@@ -175,17 +176,20 @@ def render(lang):
 <section class="section wrap approach" id="approach" aria-labelledby="approach-title"><p class="eyebrow">{d['approachLabel']}</p><div class="approach-heading"><h2 id="approach-title">{d['quote']}</h2><p>{d['approachIntro']}</p></div><div class="steps">{steps}</div></section>
 <section class="contact-section" id="contact" aria-labelledby="contact-title"><div class="wrap contact-inner"><p class="eyebrow">{d['contactLabel']}</p><h2 id="contact-title">{d['contactTitle']}</h2><p class="contact-description">{d['contactText']}</p><a class="button button-gold" href="https://www.linkedin.com/in/domichel/">{d['connect']} <span aria-hidden="true">↗</span></a>{email}<a class="github-contact" href="https://github.com/Milkshek">{d["github"]} <span aria-hidden="true">↗</span></a><div class="cv-row"><span>{d['cv']}</span><a href="{base}assets/cv/Michel-Do-CV-FR.pdf" download hreflang="fr">{d['cvFR']} <small>PDF</small><span aria-hidden="true">↓</span></a><a href="{base}assets/cv/Michel-Do-CV-EN.pdf" download hreflang="en">{d['cvEN']} <small>PDF</small><span aria-hidden="true">↓</span></a></div></div></section>
 </main>
-<footer class="footer"><div class="wrap footer-inner"><a href="#top" class="footer-brand">MDO <span>CONSULTECH</span></a><p>© 2026 Michel Do <span>·</span> {d['footer']}</p><a class="footer-github" href="https://github.com/Milkshek">GitHub <span aria-hidden="true">↗</span></a><a href="#top">{d['top']} ↑</a></div></footer>
+<footer class="footer"><div class="wrap footer-inner"><a href="#top" class="footer-brand">MDO <span>CONSULTECH</span></a><p>© 2026 Michel Do <span>·</span> {d['footer']}</p><a class="footer-legal" href="{'./mentions-legales.html' if lang == 'fr' else './legal-notice.html'}">{'Mentions légales et confidentialité' if lang == 'fr' else 'Legal notice and privacy'}</a><a class="footer-github" href="https://github.com/Milkshek">GitHub <span aria-hidden="true">↗</span></a><a href="#top">{d['top']} ↑</a></div></footer>
 </body></html>'''
 
 for lang, name in [('fr', 'index.html'), ('en', 'en/index.html')]:
     destination = ROOT / name
     destination.parent.mkdir(parents=True, exist_ok=True)
     destination.write_text(render(lang))
+for lang, name in [('fr', 'mentions-legales.html'), ('en', 'en/legal-notice.html')]:
+    (ROOT / name).write_text(render_legal(lang, ROOT, SITE_URL))
+
 (ROOT / 'sitemap.xml').write_text(f'''<?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url><loc>{SITE_URL}</loc></url>
   <url><loc>{SITE_URL}en/</loc></url>
 </urlset>
 ''')
-print('Built index.html, en/index.html and sitemap.xml')
+print('Built portfolio, legal pages and sitemap.xml')
